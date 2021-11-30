@@ -31,6 +31,12 @@ function App() {
     }
   };
 
+  const submitHandler = () => {
+    setSelectedFile(null);
+    setExcelFields([]);
+    setIsFinished(false);
+  };
+
   return (
     <Flex
       justify="center"
@@ -44,6 +50,11 @@ function App() {
       {!!progressValue && (
         <Progress value={progressValue} size="xs" colorScheme="green" />
       )}
+
+      {selectedFile?.name && (
+        <Text>Selected file is "{selectedFile?.name}"</Text>
+      )}
+
       {!!selectedFile && (
         <HeaderConfirmation setIsContainHeader={setIsContainHeader} />
       )}
@@ -67,7 +78,7 @@ function App() {
       {isFinished && (
         <>
           <Text mt="10px">All is done !!</Text>
-          <Button colorScheme="green" mt="10px">
+          <Button colorScheme="green" mt="10px" onClick={submitHandler}>
             Submit
           </Button>
         </>
