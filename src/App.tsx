@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, Flex } from "@chakra-ui/layout";
+import { useEffect, useState } from "react";
+import Papa from "papaparse";
+import StepOne from "./components/StepOne";
 
 function App() {
+  const [selectedFile, setSelectedFile] = useState<null | File>(null);
+
+  useEffect(() => {
+    console.log("selectedFile: ", selectedFile);
+    if (selectedFile) {
+      Papa.parse(selectedFile, {
+        complete: (data: { data: Object; errors: Object; meta: Object }) =>
+          console.log(data),
+        header: true,
+      });
+    }
+  }, [selectedFile]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Flex justify="center" align="center" w="100%" h="100vh" overflow="hidden">
+      <StepOne setSelectedFile={setSelectedFile} />
+    </Flex>
   );
 }
 
