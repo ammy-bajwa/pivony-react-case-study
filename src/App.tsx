@@ -1,13 +1,17 @@
-import { Flex } from "@chakra-ui/layout";
-import { useEffect, useState } from "react";
 import Papa from "papaparse";
+import { Flex, Text } from "@chakra-ui/layout";
+import { useEffect, useState } from "react";
+import { Button, Progress } from "@chakra-ui/react";
+
 import FileUploader from "./components/FileUploader";
-import { Progress } from "@chakra-ui/react";
 import FileInputSelector from "./components/FileInputSelector";
+import HeaderConfirmation from "./components/HeaderConfirmation";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<null | File>(null);
   const [progressValue, setProgressValue] = useState(0);
+  const [isContainHeader, setIsContainHeader] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const [excelFields, setExcelFields] = useState<string[]>([]);
 
   useEffect(() => {
@@ -40,18 +44,32 @@ function App() {
       {!!progressValue && (
         <Progress value={progressValue} size="xs" colorScheme="green" />
       )}
+      {!!selectedFile && (
+        <HeaderConfirmation setIsContainHeader={setIsContainHeader} />
+      )}
       {!!excelFields.length && (
         <>
           <FileInputSelector
             options={excelFields}
             placeHolder="Column Name"
             label="Chose the column name that contains text"
+            setIsFinished={setIsFinished}
           />
-          <FileInputSelector
-            options={excelFields}
-            placeHolder="Column Name"
-            label="Chose the column name that contains date"
-          />
+          {isContainHeader && (
+            <FileInputSelector
+              options={excelFields}
+              placeHolder="Column Name"
+              label="Chose the column name that contains date (optional)"
+            />
+          )}
+        </>
+      )}
+      {isFinished && (
+        <>
+          <Text mt="10px">All is done !!</Text>
+          <Button colorScheme="green" mt="10px">
+            Submit
+          </Button>
         </>
       )}
     </Flex>
