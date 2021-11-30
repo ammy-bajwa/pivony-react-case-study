@@ -2,11 +2,13 @@ import { Box } from "@chakra-ui/layout";
 import { Button, Input } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 
-interface StepOneType {
+interface FileUploaderType {
   setSelectedFile: Dispatch<SetStateAction<File | null>>;
 }
 
-const StepOne: React.FC<StepOneType> = function ({ setSelectedFile }) {
+const FileUploader: React.FC<FileUploaderType> = function ({
+  setSelectedFile,
+}) {
   const fileUploadBtnClickHandler = () => {
     const fileUploadInput = document.getElementById("fileUploadInput");
     if (fileUploadInput) {
@@ -44,4 +46,4 @@ const StepOne: React.FC<StepOneType> = function ({ setSelectedFile }) {
   );
 };
 
-export default StepOne;
+export default FileUploader;
